@@ -1,0 +1,19 @@
+pakiet TCP:
+
+!ASCI - d³ugoœc danych!JSON
+
+! sygnalizuje poczatek ramki, nastêpnie zakodowane jako ASCII przesy³ana jest liczba bajtów danych (czeœci ozanczonej jako JSON. Nastêpnie przesy³any jest kolejny !, a nastêpnie dane sformatowane zgdonie z protoko³em JSON
+
+Nie ma gwarancji, ¿e pakiet nie zostanie podzielony, dlatego znaj¹c d³ugoœæ mo¿a z³o¿yæ kilka pakietów. Pakiety TCP dochodz¹ w poprawnej kolejnoœci (w przeciwieñstwie do UDP).
+
+JSON:
+{'left_motor': int; 'right_motor': int;}
+
+left_motor - predkoœæ lewego silnika, od 255 do -255; 0 stop
+right_motor - predkoœæ prawego silnika, od 255 do -255; 0 stop
+
+Tworzenie ramki w Python 3:
+
+            msg_json = json.dumps(message).encode()
+            header = "!" + str(len(msg_json)) + "!"
+            msg = b''.join([header.encode(), msg_json])
